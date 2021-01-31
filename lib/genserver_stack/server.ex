@@ -42,6 +42,9 @@ defmodule GenserverStack.Server do
     Process.send_after(self(), :process_schedule, @ten_sec)
   end
 
+  # pid should be the one returned from init()
+  # For init(), only call once, 后续上面无参函数重的self()就是这个pid
+  # 如果init时调用上面的无参函数，self()将为与Genserver不同的pid，recursion无法持续
   def schedule_process(pid) do
     Process.send_after(pid, :process_schedule, @ten_sec)
   end
